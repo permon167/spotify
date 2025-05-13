@@ -34,11 +34,22 @@ studio_albums = studio_albums.rename(columns=column_mapping)
 studio_albums
 
 
-st.title("Visualización de albumes de estudio")
+st.title("Visualización de álbumes de estudio")
+
 # Visualización simple
 studio_albums.index = studio_albums['Título']  # Set the album titles as index
-studio_albums.plot(kind='barh', figsize=(10,5), title="Álbumes de estudio - Coldplay",
-                 y=['Posición en rankings'])  # Plot using a numeric column like 'Posición en rankings'
-plt.xlabel("Álbum")
+
+# Crear el gráfico con Matplotlib
+fig, ax = plt.subplots(figsize=(10, 5))
+studio_albums.plot(
+    kind='barh',
+    y=['Posición en rankings'],  # Asegúrate de que esta columna sea numérica
+    ax=ax,
+    title="Álbumes de estudio - Coldplay"
+)
+ax.set_xlabel("Posición en rankings")
+ax.set_ylabel("Álbum")
 plt.tight_layout()
-plt.show()
+
+# Mostrar el gráfico en Streamlit
+st.pyplot(fig)
