@@ -6,3 +6,5 @@ requests
 matplotlib
 wordcloud
 numpy
+textblob
+nltk

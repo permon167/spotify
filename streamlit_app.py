@@ -8,6 +8,8 @@ import re
 import numpy as np
 from wordcloud import wordcloud
 import matplotlib.pyplot as plt 
+from textblob import TextBlob
+import nltk
 
 st.title("Álbumes de estudio de Coldplay")
 
@@ -84,3 +86,10 @@ ax_wc.imshow(wordcloud, interpolation='bilinear')
 ax_wc.axis('off')
 ax_wc.set_title(f"WordCloud: {song}")
 st.pyplot(fig_wc)
+
+
+
+# Usar TextBlob para sentimiento (requiere inglés)
+blob = TextBlob(lyrics)
+st.write(f"Polaridad: {blob.sentiment.polarity}")
+st.write(f"Subjetividad: {blob.sentiment.subjectivity}")
