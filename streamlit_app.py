@@ -48,33 +48,23 @@ try:
     st.subheader("Tabla de álbumes de estudio")
     st.dataframe(studio_albums)
 
-    # Extraer posiciones de los charts
-    studio_albums['Posiciones'] = studio_albums['Posición en rankings'].apply(extract_chart_positions)
-
-    # Crear un DataFrame para las posiciones
-    chart_positions = studio_albums.explode('Posiciones')
-    chart_positions['Posiciones'] = chart_positions['Posiciones'].astype(int)
-
-    # Agrupar por título y sumar las posiciones
-    chart_positions_grouped = chart_positions.groupby('Título')['Posiciones'].sum().reset_index()
-
-    # Crear gráfico de barras
-    st.subheader("Gráfico de posiciones en los charts")
-    fig, ax = plt.subplots()
-    ax.barh(chart_positions_grouped['Título'], chart_positions_grouped['Posiciones'], color='skyblue')
-    ax.set_xlabel('Posición en rankings')
-    ax.set_title('Posiciones en rankings de álbumes de estudio de Coldplay')
-    st.pyplot(fig)
-
-    # Mostrar un gráfico de líneas de las posiciones en los charts
-    st.subheader("Gráfico de líneas de posiciones en los charts")
-    fig, ax = plt.subplots()
-    ax.plot(chart_positions_grouped['Título'], chart_positions_grouped['Posiciones'], marker='o', color='orange')
+    # Extraer posiciones de charts
+    studio_albums['Posición en rankings'] = studio_albums['Posición en rankings'].apply(extract_chart_positions)
+    # Hacer un grafico con las posiciones de los charts
+    # Crear un gráfico de barras
+    fig, ax = plt.subplots(figsize=(10, 6))
+    for index, row in studio_albums.iterrows():
+        positions = row['Posición en rankings']
+        if positions:  # Verificar si hay posiciones disponibles
+            ax.bar(row['Título'], positions[0], label=row['Título'])
+    # Configurar el gráfico
     ax.set_xlabel('Álbumes')
     ax.set_ylabel('Posición en rankings')
-    ax.set_title('Posiciones en rankings de álbumes de estudio de Coldplay')
-    ax.set_xticklabels(chart_positions_grouped['Título'], rotation=45, ha='right')
+    ax.set_title('Posiciones de álbumes de estudio de Coldplay en rankings')
+    ax.legend()
+    # Mostrar el gráfico
+    st.subheader("Gráfico de posiciones en rankings")
     st.pyplot(fig)
-
+    
 except Exception as e:
     st.error(f"Ocurrió un error al obtener los datos: {e}")
