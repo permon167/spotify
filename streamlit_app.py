@@ -73,5 +73,15 @@ try:
     ax.set_title("Ranking promedio de los álbumes de Coldplay")
     st.pyplot(fig)
 
+    # Visualización de álbumes de estudio
+    st.subheader("Visualización de álbumes de estudio")
+    fig, ax = plt.subplots(figsize=(10, 5))
+    studio_albums.set_index('Título')['Posición en rankings'].plot(kind='barh', ax=ax, color='skyblue')
+    ax.set_title("Álbumes de estudio - Coldplay")
+    ax.set_xlabel("Posición en rankings")
+    ax.set_ylabel("Álbum")
+    plt.tight_layout()
+    st.pyplot(fig)
+
 except Exception as e:
     st.error(f"Ocurrió un error al obtener los datos: {e}")
