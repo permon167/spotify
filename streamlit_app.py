@@ -6,7 +6,8 @@ import matplotlib.pyplot as plt
 from io import StringIO
 import re
 import numpy as np
-from wordcloud import WordCloud
+from wordcloud import wordcloud
+import matplotlib.pyplot as plt 
 
 st.title("Álbumes de estudio de Coldplay")
 
