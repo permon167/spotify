@@ -9,8 +9,8 @@ import numpy as np
 
 st.title("Álbumes de estudio de Coldplay")
 
-# URL de la discografía de Imagine Dragons en Wikipedia
-url = "https://en.wikipedia.org/wiki/Imagine_Dragons_discography"
+# URL de la discografía de Coldplay en Wikipedia
+url = "https://en.wikipedia.org/wiki/Coldplay_discography"
 
 def extract_chart_positions(chart_str):
     """Función para extraer las posiciones de los charts de diferentes países"""
@@ -65,6 +65,15 @@ try:
     st.subheader("Ranking promedio de los álbumes")
     st.dataframe(studio_albums[['Título', 'Ranking promedio']])
 
+    # Crear un gráfico de barras para los rankings promedio
+    st.subheader("Gráfico de rankings promedio por álbum")
+    fig, ax = plt.subplots()
+    studio_albums_sorted = studio_albums.sort_values(by='Ranking promedio', ascending=True)  # Ordenar por ranking promedio
+    ax.barh(studio_albums_sorted['Título'], studio_albums_sorted['Ranking promedio'], color='skyblue')
+    ax.set_xlabel('Ranking promedio')
+    ax.set_ylabel('Álbum')
+    ax.set_title('Ranking promedio de los álbumes de Coldplay')
+    st.pyplot(fig)
 
 except Exception as e:
     st.error(f"Ocurrió un error al obtener los datos: {e}")
