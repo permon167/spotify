@@ -55,6 +55,8 @@ try:
     studio_albums['Año'] = studio_albums['Detalles'].str.extract(r'(\d{4})').astype(float)
     studio_albums['Década'] = (studio_albums['Año'] // 10 * 10).astype(int)
 
+    st.write("Estructura del DataFrame:")
+    st.write(studio_albums)
 
 except Exception as e:
     st.error(f"Ocurrió un error al obtener los datos: {e}")
