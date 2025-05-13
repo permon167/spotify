@@ -48,10 +48,6 @@ try:
     st.subheader("Tabla de álbumes de estudio")
     st.dataframe(studio_albums)
 
-    # Extraer posiciones de charts
-    studio_albums['Posición en rankings'] = studio_albums['Posición en rankings'].apply(extract_chart_positions)
     
-    
-
 except Exception as e:
     st.error(f"Ocurrió un error al obtener los datos: {e}")
