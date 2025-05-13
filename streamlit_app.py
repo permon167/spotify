@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from io import StringIO
 import re
 import numpy as np
+from wordcloud import WordCloud
 
 st.title("Álbumes de estudio de Coldplay")
 
@@ -53,3 +54,28 @@ plt.tight_layout()
 
 # Mostrar el gráfico en Streamlit
 st.pyplot(fig)
+
+
+st.title("Análisis de letra de Canciones")
+
+# Función para obtener la letra de una canción
+def get_lyrics(artist, title):
+    url = f"https://api.lyrics.ovh/v1/{artist}/{title}"
+    res = requests.get(url)
+    if res.status_code == 200:
+        return res.json()['lyrics']
+    else:
+        return "Letra no encontrada."
+
+# Ejemplo con una canción famosa
+song = "Yellow"
+lyrics = get_lyrics("Coldplay", song)
+print(lyrics[:500])  # Primeros 500 caracteres
+
+
+wordcloud = WordCloud(width=800, height=400, background_color='white').generate(lyrics)
+plt.figure(figsize=(10, 5))
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.axis('off')
+plt.title(f"WordCloud: {song}")
+plt.show()
