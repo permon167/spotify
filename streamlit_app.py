@@ -14,7 +14,7 @@ url = "https://en.wikipedia.org/wiki/Coldplay_discography"
 
 def extract_chart_positions(chart_str):
     """Función para extraer las posiciones de los charts de diferentes países"""
-    if pd.isna(chart_str):
+    if pd.isna(chart_str):  # Verificar si el valor es NaN
         return []
     
     # Expresión regular para encontrar pares de 'País: Posición' en el texto
@@ -48,24 +48,26 @@ try:
     st.subheader("Tabla de álbumes de estudio")
     st.dataframe(studio_albums)
 
-    #Hacer un gráfico de barras de las posiciones en los charts
-    st.subheader("Gráfico de posiciones en los charts")
     # Extraer posiciones de los charts
     studio_albums['Posiciones'] = studio_albums['Posición en rankings'].apply(extract_chart_positions)
+
     # Crear un DataFrame para las posiciones
     chart_positions = studio_albums.explode('Posiciones')
     chart_positions['Posiciones'] = chart_positions['Posiciones'].astype(int)
+
     # Agrupar por título y sumar las posiciones
     chart_positions_grouped = chart_positions.groupby('Título')['Posiciones'].sum().reset_index()
+
     # Crear gráfico de barras
+    st.subheader("Gráfico de posiciones en los charts")
     fig, ax = plt.subplots()
     ax.barh(chart_positions_grouped['Título'], chart_positions_grouped['Posiciones'], color='skyblue')
     ax.set_xlabel('Posición en rankings')
     ax.set_title('Posiciones en rankings de álbumes de estudio de Coldplay')
     st.pyplot(fig)
+
     # Mostrar un gráfico de líneas de las posiciones en los charts
     st.subheader("Gráfico de líneas de posiciones en los charts")
-    # Crear gráfico de líneas
     fig, ax = plt.subplots()
     ax.plot(chart_positions_grouped['Título'], chart_positions_grouped['Posiciones'], marker='o', color='orange')
     ax.set_xlabel('Álbumes')
@@ -73,7 +75,6 @@ try:
     ax.set_title('Posiciones en rankings de álbumes de estudio de Coldplay')
     ax.set_xticklabels(chart_positions_grouped['Título'], rotation=45, ha='right')
     st.pyplot(fig)
-    
 
 except Exception as e:
     st.error(f"Ocurrió un error al obtener los datos: {e}")
