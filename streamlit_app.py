@@ -9,8 +9,8 @@ import numpy as np
 
 st.title("Álbumes de estudio de Coldplay")
 
-# URL de la discografía de Coldplay en Wikipedia
-url = "https://en.wikipedia.org/wiki/Coldplay_discography"
+# URL de la discografía de Imagine Dragons en Wikipedia
+url = "https://en.wikipedia.org/wiki/Imagine_Dragons_discography"
 
 def extract_chart_positions(chart_str):
     """Función para extraer las posiciones de los charts de diferentes países"""
@@ -55,8 +55,16 @@ try:
     studio_albums['Año'] = studio_albums['Detalles'].str.extract(r'(\d{4})').astype(float)
     studio_albums['Década'] = (studio_albums['Año'] // 10 * 10).astype(int)
 
-    st.write("Estructura del DataFrame:")
-    st.write(studio_albums)
+    # Extraer las posiciones de los rankings para cada álbum
+    studio_albums['Posiciones en charts'] = studio_albums['Posición en rankings'].apply(extract_chart_positions)
+
+    # Calcular el ranking promedio de cada álbum
+    studio_albums['Ranking promedio'] = studio_albums['Posiciones en charts'].apply(lambda x: np.mean(x) if x else np.nan)
+
+    # Mostrar el ranking promedio
+    st.subheader("Ranking promedio de los álbumes")
+    st.dataframe(studio_albums[['Título', 'Ranking promedio']])
+
 
 except Exception as e:
     st.error(f"Ocurrió un error al obtener los datos: {e}")
