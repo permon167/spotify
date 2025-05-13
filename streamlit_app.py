@@ -55,33 +55,6 @@ try:
     studio_albums['Año'] = studio_albums['Detalles'].str.extract(r'(\d{4})').astype(float)
     studio_albums['Década'] = (studio_albums['Año'] // 10 * 10).astype(int)
 
-    # Extraer las posiciones de los rankings para cada álbum
-    studio_albums['Posiciones en charts'] = studio_albums['Posición en rankings'].apply(extract_chart_positions)
-
-    # Calcular el ranking promedio de cada álbum
-    studio_albums['Ranking promedio'] = studio_albums['Posiciones en charts'].apply(lambda x: np.mean(x) if x else np.nan)
-
-    # Mostrar el ranking promedio
-    st.subheader("Ranking promedio de los álbumes")
-    st.dataframe(studio_albums[['Título', 'Ranking promedio']])
-
-    # Visualización de rankings promedio
-    st.subheader("Ranking promedio de álbumes de Coldplay")
-    fig, ax = plt.subplots(figsize=(10, 6))
-    studio_albums.sort_values(by='Ranking promedio').plot(kind='barh', x='Título', y='Ranking promedio', ax=ax)
-    ax.set_xlabel("Ranking promedio")
-    ax.set_title("Ranking promedio de los álbumes de Coldplay")
-    st.pyplot(fig)
-
-    # Visualización de álbumes de estudio
-    st.subheader("Visualización de álbumes de estudio")
-    fig, ax = plt.subplots(figsize=(10, 5))
-    studio_albums.set_index('Título')['Posición en rankings'].plot(kind='barh', ax=ax, color='skyblue')
-    ax.set_title("Álbumes de estudio - Coldplay")
-    ax.set_xlabel("Posición en rankings")
-    ax.set_ylabel("Álbum")
-    plt.tight_layout()
-    st.pyplot(fig)
 
 except Exception as e:
     st.error(f"Ocurrió un error al obtener los datos: {e}")
