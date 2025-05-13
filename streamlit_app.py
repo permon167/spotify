@@ -48,23 +48,7 @@ try:
     st.subheader("Tabla de álbumes de estudio")
     st.dataframe(studio_albums)
 
-    # Asegurarnos de que la columna 'Detalles' esté en formato texto
-    studio_albums['Detalles'] = studio_albums['Detalles'].astype(str)
-
-    # Extraer el año desde la columna "Detalles"
-    studio_albums['Año'] = studio_albums['Detalles'].str.extract(r'(\d{4})').astype(float)
-    studio_albums['Década'] = (studio_albums['Año'] // 10 * 10).astype(int)
-
-    # Extraer las posiciones de los rankings para cada álbum
-    studio_albums['Posiciones en charts'] = studio_albums['Posición en rankings'].apply(extract_chart_positions)
-
-    # Calcular el ranking promedio de cada álbum
-    studio_albums['Ranking promedio'] = studio_albums['Posiciones en charts'].apply(lambda x: np.mean(x) if x else np.nan)
-
-    # Mostrar el ranking promedio
-    st.subheader("Ranking promedio de los álbumes")
-    st.dataframe(studio_albums[['Título', 'Ranking promedio']])
-
+    
     # Crear un gráfico de barras para los rankings promedio
     st.subheader("Gráfico de rankings promedio por álbum")
     fig, ax = plt.subplots()
