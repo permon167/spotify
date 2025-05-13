@@ -32,3 +32,11 @@ column_mapping = {
 }
 studio_albums = studio_albums.rename(columns=column_mapping)
 studio_albums
+
+# Visualización simple
+studio_albums.index = studio_albums['Título']  # Set the album titles as index
+studio_albums.plot(kind='barh', figsize=(10,5), title="Álbumes de estudio - Coldplay",
+                 y=['Posición en rankings'])  # Plot using a numeric column like 'Posición en rankings'
+plt.xlabel("Álbum")
+plt.tight_layout()
+plt.show()
