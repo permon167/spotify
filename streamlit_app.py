@@ -50,21 +50,8 @@ try:
 
     # Extraer posiciones de charts
     studio_albums['Posición en rankings'] = studio_albums['Posición en rankings'].apply(extract_chart_positions)
-    # Hacer un grafico con las posiciones de los charts
-    # Crear un gráfico de barras
-    fig, ax = plt.subplots(figsize=(10, 6))
-    for index, row in studio_albums.iterrows():
-        positions = row['Posición en rankings']
-        if not pd.isna(positions) and len(positions) > 0:  # Verificar si hay posiciones disponibles
-            ax.bar(row['Título'], positions[0], label=row['Título'])
-    # Configurar el gráfico
-    ax.set_xlabel('Álbumes')
-    ax.set_ylabel('Posición en rankings')
-    ax.set_title('Posiciones de álbumes de estudio de Coldplay en rankings')
-    ax.legend()
-    # Mostrar el gráfico
-    st.subheader("Gráfico de posiciones en rankings")
-    st.pyplot(fig)
+    
+    
 
 except Exception as e:
     st.error(f"Ocurrió un error al obtener los datos: {e}")
