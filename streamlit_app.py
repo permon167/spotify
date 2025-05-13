@@ -71,12 +71,16 @@ def get_lyrics(artist, title):
 # Ejemplo con una canción famosa
 song = "Yellow"
 lyrics = get_lyrics("Coldplay", song)
-print(lyrics[:500])  # Primeros 500 caracteres
+
+# Mostrar la letra en Streamlit
+st.subheader(f"Letras de la canción: {song}")
+st.text(lyrics[:500])  # Mostrar los primeros 500 caracteres de la letra
 
 
+# Generar y mostrar el WordCloud en Streamlit
 wordcloud = wordcloud.WordCloud(width=800, height=400, background_color='white').generate(lyrics)
-plt.figure(figsize=(10, 5))
-plt.imshow(wordcloud, interpolation='bilinear')
-plt.axis('off')
-plt.title(f"WordCloud: {song}")
-plt.show()
+fig_wc, ax_wc = plt.subplots(figsize=(10, 5))
+ax_wc.imshow(wordcloud, interpolation='bilinear')
+ax_wc.axis('off')
+ax_wc.set_title(f"WordCloud: {song}")
+st.pyplot(fig_wc)
